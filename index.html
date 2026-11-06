@@ -355,7 +355,7 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
       <div class="torn">
         <p class="dear">dear <span id="herDear">Aleisha</span>,</p>
         <h1 class="rn" id="q" data-rn="will you go on a date with me?"></h1>
-        <p class="sub">one movie, two screens. your couch and mine.</p>
+        <p class="sub">a stress-free night in. your comfiest spot, my stream, one movie.</p>
         <div class="say-slot" id="saySlot">
           <img class="mega" id="mega" src="assets/megaphone.webp" alt="">
           <div class="say-wrap"><div class="say" id="bubble" role="status" aria-live="polite"></div></div>
@@ -395,7 +395,7 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
       <img class="news news-plan" src="assets/newspaper.webp" alt="">
       <h2 class="rn" data-rn="it's a date"></h2>
       <p class="mojito"><span id="nick2">mojito</span></p>
-      <p class="small">screenshot this. it's legally binding.</p>
+      <p class="small">your stress-free, comfy night in. all you have to do is show up.</p>
     </div>
 
     <div class="ticket-zone">
@@ -500,7 +500,7 @@ const PLAN = {
   timeLabel: "9:00 PM",
   playLabel: "9:15",
   screen: "Discord",
-  seat: "your couch",
+  seat: "your comfiest spot",
   /* the movie wheel: she spins, the wheel decides. swap any you can't stream. */
   movies: [
     { title: "Barbie as the Princess and the Pauper", wheel: ["Princess", "& Pauper"], note: "the rewatch, where it all started. Preminger, round two." },
@@ -508,13 +508,14 @@ const PLAN = {
     { title: "Bubble Boy",                            wheel: ["Bubble", "Boy"],        note: "a guy in a bubble going the distance for the girl he likes. relatable." }
   ],
   timeline: [
-    { time: "9:00 PM",   title: "Call starts",        text: "On Discord. Come home, get cozy, pajamas are officially allowed." },
-    { time: "9:15 PM",   title: "Movie starts",        text: "Whatever the wheel picked. I'm streaming it on Discord, you just get comfy and watch." },
-    { time: "Mid-movie", title: "Snack check",         text: "Grab your favorite snacks, whatever you're craving tonight." },
-    { time: "After",     title: "Rate it in horses",   text: "Out of 10 horses. Then a horse-joke battle. Loser owes the winner a tulip." },
-    { time: "All night", title: "Kala on your lap",    text: "Bring Kala, your stress-free, comfy place. She's officially invited." }
+    { time: "9:00 PM",   title: "Get comfy",          text: "Come home, change into your coziest stuff, and hop on Discord. No rush, no pressure." },
+    { time: "9:15 PM",   title: "Movie starts",       text: "Whatever the wheel picked. I'll handle the stream, you just get comfy and watch." },
+    { time: "Anytime",   title: "Snacks & pauses",    text: "Grab your favorite snacks whenever you want. We can pause anytime." },
+    { time: "After",     title: "Rate it in horses",  text: "Out of 10 horses. Then a horse-joke battle. Loser owes the winner a tulip." },
+    { time: "All night", title: "Kala on your lap",   text: "She's officially invited. Extra cozy points." },
+    { time: "The rule",  title: "Zero stress",        text: "If you get sleepy or just want to talk instead, that's the plan now. Tonight is all about you relaxing." }
   ],
-  bring: ["Your favorite snacks", "Your coziest blanket", "Kala, your comfy place", "Your best horse joke"]
+  bring: ["Your coziest blanket", "Your favorite snacks", "Kala", "Your best horse joke", "Zero stress (I've got the rest)"]
 };
 
 /* What the bubble says each time she tries "No": [bubble text, new No-button label] */
@@ -548,7 +549,7 @@ $("tDate").textContent = PLAN.dateLabel;
 $("tTime").textContent = PLAN.timeLabel;
 $("tScreen").textContent = PLAN.screen;
 $("tSeat").textContent = PLAN.seat;
-$("tFine").textContent = "Valid for one (1) date with " + cap(PLAN.me) + ". Non-refundable. Non-transferable. Kala gets in free.";
+$("tFine").textContent = "Valid for one (1) stress-free date with " + cap(PLAN.me) + ". Non-refundable. Non-transferable. Kala gets in free.";
 $("stubName").textContent = PLAN.her.toUpperCase();
 $("cdWhen").textContent = PLAN.dateLabel + ", " + PLAN.timeLabel;
 
