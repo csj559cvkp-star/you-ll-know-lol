@@ -368,6 +368,44 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
 .cat-next{display:none}
 #yay.cat:not(.cat-out) .cat-next{display:inline-block;animation:fadeUp .5s 4s both}
 
+/* ===== bigger screens: scale everything up ===== */
+@media (min-width:900px) and (min-height:680px){
+  html{font-size:18.5px}
+  .screen{max-width:560px}
+  .env{width:430px}
+  #env-screen .rn{max-width:460px}
+  .ask-wrap{max-width:500px}
+  .bouquet-wrap{width:300px}
+  .rose-cat{width:470px}
+  .song{width:440px}
+  #plan{max-width:720px}
+  .wheel-wrap{width:380px}
+  .spook{width:430px}
+  .meme-pop{width:250px}
+  .sticky{width:440px}
+  .sound{width:48px;height:48px}
+}
+@media (min-width:1500px) and (min-height:900px){
+  html{font-size:20px}
+  .env{width:480px}
+  .ask-wrap{max-width:540px}
+  .bouquet-wrap{width:330px}
+  .rose-cat{width:520px}
+}
+/* ===== short screens (phone turned sideways) ===== */
+@media (max-height:520px){
+  .ask-wrap{margin-top:6px}
+  .ask-wrap .torn{padding:24px 18px 16px}
+  #ask .rn{font-size:1.45rem;margin-bottom:8px}
+  .say-slot{min-height:64px;margin:4px 0}
+  .btns{min-height:72px}
+  .sign{margin-top:14px}
+  .env-hey{margin:6px 0 10px}
+  .env{width:min(300px,60vh * 1.4)}
+  .bouquet-wrap{width:min(200px,40vh)}
+  .rose-cat{width:min(300px,70vh)}
+}
+
 @media (prefers-reduced-motion:reduce){
   .cat-svg,.btn.yes,.env-float,.env-seal,.hub.ready,.env-hint img{animation-iteration-count:1!important}
   .rl{animation-duration:.01s!important}
