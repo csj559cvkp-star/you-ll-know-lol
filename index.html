@@ -446,7 +446,7 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
 
     <div class="wheel-sec" id="wheelSec">
       <div class="label-wrap torn-wrap"><span class="tape tc"></span><div class="torn"><p class="hand">spin for our movie</p></div></div>
-      <p class="sec-hint">too many options, so the wheel decides.<br>you get one re-spin.</p>
+      <p class="sec-hint">three movies, one wheel. it decides.<br>you get one re-spin.</p>
       <img class="stk wheel-arrow" src="assets/arrow1.webp" alt="">
       <div class="wheel-wrap" id="wheelWrap">
         <svg class="wheel-svg" id="wheel" viewBox="-170 -185 340 350" aria-hidden="true"></svg>
@@ -513,11 +513,8 @@ const PLAN = {
   /* the movie wheel: she spins, the wheel decides. swap any you can't stream. */
   movies: [
     { title: "Barbie as the Princess and the Pauper", wheel: ["Princess", "& Pauper"], emoji: "👑", note: "the rewatch, where it all started. Preminger, round two." },
-    { title: "Spirit: Stallion of the Cimarron",      wheel: ["Spirit", ""],          emoji: "🐴", note: "for the horse-joke enjoyers. neigh-ver a dull moment." },
-    { title: "Puss in Boots: The Last Wish",           wheel: ["Puss in", "Boots"],     emoji: "🐈", note: "a cat movie. Cala approved." },
-    { title: "Kiki's Delivery Service",                wheel: ["Kiki's", "Delivery"],   emoji: "🧹", note: "cozy little witch and a little black cat." },
-    { title: "Howl's Moving Castle",                   wheel: ["Howl's", "Castle"],     emoji: "🏰", note: "the cozy-romance pick." },
-    { title: "Tangled",                                wheel: ["Tangled", ""],          emoji: "🏮", note: "lanterns, a frying pan, and a horse who's basically a cop." }
+    { title: "Little Nicky",                          wheel: ["Little", "Nicky"],      emoji: "😈", note: "Adam Sandler as the devil's son. pure chaos, zero regrets." },
+    { title: "Bubble Boy",                            wheel: ["Bubble", "Boy"],        emoji: "🫧", note: "a guy in a bubble going the distance for the girl he likes. relatable." }
   ],
   timeline: [
     { time: "9:00 PM",   title: "Call starts ☎️",        text: "On Discord. Come home, get cozy, pajamas are officially allowed." },
@@ -1006,11 +1003,13 @@ $("stub").addEventListener("click", () => {
 
 /* ---------- movie wheel ---------- */
 const SLICE_COLORS = ["#B79CEB", "#F2A877", "#A9C8A6", "#F5B5C7", "#D9C6F5", "#E89A63"];
-const N = PLAN.movies.length, SEG = 360 / N, R = 140;
+/* with only a few movies, each one goes on the wheel twice so it still looks full */
+const SL = PLAN.movies.length <= 3 ? [...PLAN.movies, ...PLAN.movies] : PLAN.movies;
+const N = SL.length, SEG = 360 / N, R = 140;
 const pt = (a, r) => [(r * Math.sin(a * Math.PI / 180)).toFixed(2), (-r * Math.cos(a * Math.PI / 180)).toFixed(2)];
 (function buildWheel(){
   let rot = "", lights = "";
-  PLAN.movies.forEach((m, i) => {
+  SL.forEach((m, i) => {
     const a0 = i * SEG, a1 = (i + 1) * SEG, [x0, y0] = pt(a0, R), [x1, y1] = pt(a1, R), c = a0 + SEG / 2;
     rot += `<path class="slice" data-i="${i}" d="M0 0 L${x0} ${y0} A${R} ${R} 0 ${SEG > 180 ? 1 : 0} 1 ${x1} ${y1}Z" fill="${SLICE_COLORS[i % SLICE_COLORS.length]}" stroke="#2B2036" stroke-width="2.5" stroke-linejoin="round"/>`;
     const two = m.wheel[1];
@@ -1040,7 +1039,7 @@ function spin(){
   $("wrTitle").classList.remove("show"); $("wrNote").textContent = "";
   document.querySelectorAll(".slice.win").forEach(s => s.classList.remove("win"));
   $("wheelWrap").classList.add("spinning");
-  let k; do { k = Math.floor(Math.random() * N); } while (N > 1 && k === picked);
+  let k; do { k = Math.floor(Math.random() * N); } while (picked !== null && SL[k].title === SL[picked].title);
   const a = k * SEG + SEG / 2 + rand(-SEG * .32, SEG * .32);
   const start = wheelAngle, delta = ((-a - start) % 360 + 360) % 360, end = start + 360 * 6 + delta;
   const dur = REDUCED ? 1200 : 5200;
@@ -1059,7 +1058,7 @@ function spin(){
 function land(k){
   spinning = false; picked = k;
   $("wheelWrap").classList.remove("spinning");
-  const m = PLAN.movies[k];
+  const m = SL[k];
   document.querySelector(`.slice[data-i="${k}"]`).classList.add("win");
   $("wrTitle").textContent = m.emoji + " " + m.title; $("wrTitle").classList.add("show");
   $("wrNote").textContent = m.note;
@@ -1075,7 +1074,7 @@ $("respinBtn").addEventListener("click", () => { $("hub").textContent = "SPIN"; 
 $("lockBtn").addEventListener("click", () => {
   if (picked === null || locked) return;
   locked = true;
-  const m = PLAN.movies[picked];
+  const m = SL[picked];
   $("wheelBtns").classList.add("hidden");
   $("hub").textContent = "🔒";
   $("wrNote").textContent = "locked in. I'll start the stream at " + PLAN.playLabel + " 🍿";
