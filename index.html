@@ -330,10 +330,10 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
 .ghost-flash{position:fixed;inset:0;z-index:46;background:rgba(20,15,25,.28);pointer-events:none;opacity:0}
 .ghost-flash.on{animation:gflash .45s ease-out}
 @keyframes gflash{0%{opacity:1}100%{opacity:0}}
-.ghost{position:fixed;left:50%;top:45%;z-index:47;width:min(74vw,320px);translate:-50% -50%;background:#fff;padding:8px 8px 28px;box-shadow:0 20px 44px rgba(20,15,25,.4);pointer-events:none;opacity:0;visibility:hidden}
-.ghost img,.meme-pop img{display:block;width:100%;height:auto;max-height:50vh;object-fit:cover}
-.ghost::before,.meme-pop::before{content:"";position:absolute;top:-12px;left:50%;width:84px;height:26px;translate:-50% 0;rotate:-4deg;background:var(--grain),var(--tape);clip-path:polygon(3% 0,97% 0,100% 16%,96% 33%,100% 50%,96% 67%,100% 84%,97% 100%,3% 100%,0 84%,4% 67%,0 50%,4% 33%,0 16%)}
-.ghost.boo{visibility:visible;animation:boo 1.2s cubic-bezier(.2,.9,.3,1) forwards}
+.spook{position:fixed;left:50%;top:45%;z-index:47;width:min(74vw,320px);translate:-50% -50%;background:#fff;padding:8px 8px 28px;box-shadow:0 20px 44px rgba(20,15,25,.4);pointer-events:none;opacity:0;visibility:hidden}
+.spook img,.meme-pop img{display:block;width:100%;height:auto;max-height:50vh;object-fit:cover}
+.spook::before,.meme-pop::before{content:"";position:absolute;top:-12px;left:50%;width:84px;height:26px;translate:-50% 0;rotate:-4deg;background:var(--grain),var(--tape);clip-path:polygon(3% 0,97% 0,100% 16%,96% 33%,100% 50%,96% 67%,100% 84%,97% 100%,3% 100%,0 84%,4% 67%,0 50%,4% 33%,0 16%)}
+.spook.boo{visibility:visible;animation:boo 1.2s cubic-bezier(.2,.9,.3,1) forwards}
 @keyframes boo{
   0%{opacity:0;transform:scale(1.7) rotate(var(--gr));filter:brightness(2.4) blur(3px)}
   6%{opacity:1;transform:scale(1.04) rotate(var(--gr));filter:brightness(1.3) blur(0)}
@@ -345,29 +345,28 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
 .meme-pop{position:fixed;z-index:47;width:min(40vw,190px);translate:-50% -50%;background:#fff;padding:6px 6px 20px;box-shadow:0 14px 30px rgba(20,15,25,.35);pointer-events:none}
 
 /* ===== the rose cat + our song ===== */
-.rose-cat{position:fixed;left:50%;top:46%;z-index:48;width:min(84vw,380px);translate:-50% -50%;pointer-events:none;visibility:hidden}
+.rose-cat{position:absolute;left:50%;top:46%;z-index:6;width:min(86vw,370px);translate:-50% -50%;pointer-events:none;opacity:0}
 .rose-cat img{width:100%;filter:var(--sticker)}
 .rose-cap{position:absolute;left:50%;bottom:-14px;translate:-50% 0;rotate:-3deg;background:var(--grain),var(--paper);padding:6px 18px;font-family:var(--hand);font-size:1.05rem;line-height:1.8;color:var(--ink);box-shadow:3px 4px 0 var(--ink);white-space:nowrap}
-.rose-cat.go{visibility:visible;animation:catIn 3.2s cubic-bezier(.3,1.1,.4,1) forwards}
-@keyframes catIn{
-  0%{transform:translateX(125vw) rotate(12deg)}
-  18%{transform:translateX(-5vw) rotate(-6deg)}
-  25%{transform:translateX(0) rotate(4deg)}
-  31%{transform:rotate(-4deg) scale(1.06)}
-  37%{transform:rotate(4deg) scale(1)}
-  43%{transform:rotate(-3deg)}
-  49%{transform:rotate(2deg)}
-  55%{transform:rotate(0deg)}
-  82%{transform:translateX(0) rotate(0deg)}
-  100%{transform:translateX(-135vw) rotate(-14deg)}}
-#yay:not(.go) .bouquet,#yay:not(.go) .for-you,#yay:not(.go) .for-arrow,#yay:not(.go) .yay-sub,#yay:not(.go) .yay-small,#yay:not(.go) .song{animation:none;opacity:0}
-.song{width:min(100%,360px);margin:0 0 20px;opacity:0;animation:fadeUp .6s 1.4s forwards}
+#yay.cat .rose-cat{opacity:1;animation:catIn 1.6s cubic-bezier(.3,1.1,.4,1) both,catBob 1.1s 1.6s ease-in-out infinite}
+#yay.cat-out .rose-cat{opacity:1;animation:catOut .7s cubic-bezier(.5,0,.8,.4) forwards}
+@keyframes catIn{0%{transform:translateX(125vw) rotate(12deg)}45%{transform:translateX(-5vw) rotate(-6deg)}62%{transform:translateX(0) rotate(4deg)}74%{transform:rotate(-3deg) scale(1.05)}86%{transform:rotate(2deg) scale(1)}100%{transform:none}}
+@keyframes catBob{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-5px) rotate(-2.5deg)}75%{transform:translateY(2px) rotate(2.5deg)}}
+@keyframes catOut{from{transform:none}to{transform:translateX(-135vw) rotate(-14deg)}}
+#yay:not(.go) .bouquet,#yay:not(.go) .for-you,#yay:not(.go) .for-arrow{animation:none;opacity:0}
+#yay:not(.go) .yay-sub,#yay:not(.go) .yay-small{display:none}
+.song{width:min(100%,360px);margin:22px 0 20px;opacity:0}
+#yay.cat .song,#yay.go .song{animation:fadeUp .6s .8s both}
 .song-label{margin:0 0 4px;font-family:var(--hand);font-size:1.05rem;line-height:1.9;rotate:-2deg}
 .song-player{min-height:80px;border-radius:12px;box-shadow:3px 4px 0 var(--ink);overflow:hidden;background:#2b2b2b}
 .song-player iframe{display:block}
 .song-fallback{display:block;padding:16px 18px;color:#FCFBF8;text-decoration:none;font-weight:800;font-size:.98rem;line-height:1.35;text-align:left}
 .song-fallback small{font-weight:600;opacity:.75}
-.song-hint{margin:8px 0 0;font-family:var(--hand);font-size:.85rem;line-height:1.8;color:var(--ink-soft)}
+.song-hint{margin:8px 0 0;font-family:var(--hand);font-size:.9rem;line-height:1.8;color:var(--ink)}
+#yay.cat .song-hint{animation:breathe 1.5s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.45}50%{opacity:1}}
+.cat-next{display:none}
+#yay.cat:not(.cat-out) .cat-next{display:inline-block;animation:fadeUp .5s 4s both}
 
 @media (prefers-reduced-motion:reduce){
   .cat-svg,.btn.yes,.env-float,.env-seal,.hub.ready,.env-hint img{animation-iteration-count:1!important}
@@ -379,8 +378,7 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
 <div class="paper-bg" aria-hidden="true"></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="ghost-flash" id="ghostFlash" aria-hidden="true"></div>
-<div class="ghost" id="ghost" aria-hidden="true"><img id="ghostImg" alt=""></div>
-<div class="rose-cat" id="roseCat" aria-hidden="true"><img src="assets/rosecat.webp" alt=""><span class="rose-cap">for you, m'lady</span></div>
+<div class="spook" id="ghost" aria-hidden="true"><img id="ghostImg" alt=""></div>
 <button class="sound" id="sound" type="button" aria-label="Turn sound off"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1E1B22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#1E1B22"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg></button>
 
 <main>
@@ -439,14 +437,16 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
       <span class="for-you pop">for you</span>
       <img class="stk for-arrow pop" src="assets/arrow1.webp" alt="">
       <img class="bouquet" src="assets/tulips.webp" alt="a bouquet of lilac, lavender, pink and orange tulips">
+      <div class="rose-cat" id="roseCat" aria-hidden="true"><img src="assets/rosecat.webp" alt=""><span class="rose-cap">for you, m'lady</span></div>
     </div>
     <p class="yay-sub">you just made my whole week</p>
     <p class="yay-small" id="yaySmall"></p>
     <div class="song" id="songBox">
       <p class="song-label">our song</p>
       <div class="song-player"><div id="spotify"><a class="song-fallback" href="https://open.spotify.com/track/5WDLRQ3VCdVrKw0njWe5E5" target="_blank" rel="noopener">Careless Whisper · George Michael<br><small>tap to open in Spotify</small></a></div></div>
-      <p class="song-hint" id="songHint">press play if it didn't start</p>
+      <p class="song-hint" id="songHint">tap play, trust me</p>
     </div>
+    <button class="btn small ghost cat-next" id="catNext" type="button">okay, okay</button>
     <button class="btn yes reveal-late" id="toTicket" type="button">Get your ticket</button>
   </section>
 
@@ -870,11 +870,35 @@ let SPOT = null, wantSong = false;
 window.onSpotifyIframeApiReady = IFrameAPI => {
   IFrameAPI.createController($("spotify"), { uri: SONG_URI, width: "100%", height: 80 }, c => {
     SPOT = c;
-    c.addListener("playback_update", e => { if (e && e.data) $("songHint").classList.toggle("hidden", !e.data.isPaused); });
+    c.addListener("playback_update", e => { if (e && e.data) onSongState(e.data.isPaused); });
     c.addListener("ready", () => { if (wantSong) { try { c.play(); } catch (err) {} } });
   });
 };
 function playSong(){ wantSong = true; try { if (SPOT){ if (SPOT.play) SPOT.play(); else SPOT.resume(); } } catch (e) {} }
+
+
+/* ---------- the rose cat scene ---------- */
+let phase = "", catEndT = null, songStartedAt = 0;
+function scheduleCatEnd(ms){ clearTimeout(catEndT); catEndT = setTimeout(endCatPhase, ms); }
+function startCatPhase(){
+  phase = "cat";
+  $("yay").classList.add("cat");
+  swish(); playSong();
+  scheduleCatEnd(9500);
+}
+function endCatPhase(){
+  if (phase !== "cat") return;
+  phase = "done"; clearTimeout(catEndT);
+  const y = $("yay");
+  y.classList.add("cat-out");
+  setTimeout(() => { y.classList.remove("cat", "cat-out"); y.classList.add("go"); pip(); }, 650);
+  setTimeout(() => $("toTicket").classList.add("show"), 650 + 2100);
+}
+$("catNext").addEventListener("click", endCatPhase);
+function onSongState(paused){
+  $("songHint").classList.toggle("hidden", !paused);
+  if (!paused && phase === "cat" && !songStartedAt){ songStartedAt = Date.now(); scheduleCatEnd(10000); }
+}
 
 /* =========================================================
    screens
@@ -1074,11 +1098,8 @@ function sayYes(btn){
       : `you tried to press no ${attempts} time${attempts === 1 ? "" : "s"}. the neigh-sayers have been defeated.`;
     await show("yay");
     shower(2600);
-    // the rose cat slides in after the photos, then the tulips
-    setTimeout(() => { const c = $("roseCat"); c.classList.remove("go"); void c.offsetWidth; c.classList.add("go"); swish(); }, 1300);
-    setTimeout(() => { $("yay").classList.add("go"); pip(); }, 1300 + 2700);
-    setTimeout(() => $("roseCat").classList.remove("go"), 1300 + 3300);
-    setTimeout(() => $("toTicket").classList.add("show"), 1300 + 2700 + 2100);
+    // after the photos: the rose cat + the sax, then the tulips
+    setTimeout(startCatPhase, 1300);
   }, 380);
 }
 
