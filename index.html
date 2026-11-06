@@ -332,7 +332,7 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
   <section class="screen active" id="env-screen">
     <img class="news news-env" src="assets/newspaper.webp" alt="">
     <h1 class="rn" data-rn="you've got mail"></h1>
-    <p class="env-hey">hey <span id="nick0">mojito</span> ♡</p>
+    <p class="env-hey">hey <span id="nick0">mojito</span></p>
     <div class="env-float">
       <div class="env" id="env" role="button" tabindex="0" aria-label="Open the letter">
         <div class="env-layer env-in"></div>
@@ -394,7 +394,7 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
     <div class="plan-head">
       <img class="news news-plan" src="assets/newspaper.webp" alt="">
       <h2 class="rn" data-rn="it's a date"></h2>
-      <p class="mojito"><span id="nick2">mojito</span> ♡</p>
+      <p class="mojito"><span id="nick2">mojito</span></p>
       <p class="small">screenshot this. it's legally binding.</p>
     </div>
 
@@ -699,7 +699,7 @@ function kick(){ if (!running){ running = true; if (CW !== vw() || CH !== vh()) 
 function burst(x, y, o = {}){
   const count = Math.round((o.count ?? 80) * (REDUCED ? .3 : 1));
   const angle = o.angle ?? -90, spread = o.spread ?? 70, speed = o.speed ?? 11;
-  const shapes = o.shapes || ["rect", "rect", "circle", "heart"], colors = o.colors || COLORS, size = o.size || [6, 12];
+  const shapes = o.shapes || ["rect", "rect", "circle"], colors = o.colors || COLORS, size = o.size || [6, 12];
   for (let i = 0; i < count; i++){
     const a = (angle + (Math.random() - .5) * spread) * Math.PI / 180, v = speed * rand(o.even ? .9 : .5, o.even ? 1.05 : 1.15);
     parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, g: o.gravity ?? .26, drag: o.drag ?? .985,
@@ -748,7 +748,6 @@ function tick(){
   if (parts.length) requestAnimationFrame(tick); else { running = false; wipe(); cv.style.display = "none"; }
 }
 const puff = (x, y) => burst(x, y, { count: 16, spread: 360, speed: 4.5, gravity: 0, drag: .92, shapes: ["circle"], colors: ["#1E1B22", "#B79CEB", "#E3D3BC", "#FCFBF8"], size: [5, 11], decay: .035 });
-const hearts = (x, y) => burst(x, y, { count: 9, angle: -90, spread: 70, speed: 5, gravity: -.04, drag: .97, shapes: ["heart"], colors: ["#E27D99", "#F5B5C7", "#B79CEB", "#7E5FD0"], size: [12, 20], decay: .014 });
 function rain(ms, emoji){
   const end = performance.now() + ms;
   (function drop(){
@@ -783,7 +782,7 @@ function openEnvelope(){
   crack(); whoosh();
   const r = env.getBoundingClientRect();
   setTimeout(() => burst(r.left + r.width * .495, r.top + r.height * .52, { count: 16, spread: 360, speed: 4, gravity: .15, shapes: ["circle"], colors: ["#8B5A2B", "#B98545", "#5E3A18"], size: [4, 8], decay: .03 }), 280);
-  setTimeout(() => { burst(r.left + r.width / 2, r.top - 20, { count: 26, angle: -90, spread: 120, speed: 6, gravity: .12, shapes: ["heart", "circle"], size: [8, 14] }); pip(); }, 1500);
+  setTimeout(() => { burst(r.left + r.width / 2, r.top - 20, { count: 26, angle: -90, spread: 120, speed: 6, gravity: .12, shapes: ["rect", "circle"], size: [8, 14] }); pip(); }, 1500);
   setTimeout(() => show("ask"), 2200);
 }
 $("env").addEventListener("click", openEnvelope);
