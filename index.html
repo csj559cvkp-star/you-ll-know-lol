@@ -169,7 +169,7 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
 .yay-title{font-size:clamp(3rem,15vw,4.6rem)!important}
 .yay-bang{right:-50px;top:-16px;width:56px;rotate:16deg;animation-delay:.5s}
 .bouquet-wrap{position:relative;width:min(230px,58vw);margin:22px 0 6px}
-.bouquet{width:100%;rotate:-5deg;transform-origin:50% 90%;filter:drop-shadow(2px 10px 10px rgba(30,27,34,.22));animation:bouquetIn .9s .25s cubic-bezier(.2,1.5,.4,1) both,bsway 3.6s 1.2s ease-in-out infinite alternate}
+.bouquet{width:100%;rotate:-5deg;transform-origin:50% 90%;filter:drop-shadow(2px 10px 10px rgba(30,27,34,.22));animation:bouquetIn .9s .1s cubic-bezier(.2,1.5,.4,1) both,bsway 3.6s 1.2s ease-in-out infinite alternate}
 @keyframes bsway{from{rotate:-7deg}to{rotate:-2deg}}
 .bouquet svg{display:block;width:100%;height:auto;overflow:visible}
 .bq-t,.bq-l{transform-box:view-box;transform-origin:150px 340px;animation:grow .7s cubic-bezier(.2,1.5,.4,1) both,tsway 3.4s ease-in-out infinite alternate;animation-delay:var(--d),var(--d2)}
@@ -344,6 +344,31 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
   100%{opacity:0;transform:scale(.9) rotate(var(--gr)) translateY(-24px);filter:blur(4px)}}
 .meme-pop{position:fixed;z-index:47;width:min(40vw,190px);translate:-50% -50%;background:#fff;padding:6px 6px 20px;box-shadow:0 14px 30px rgba(20,15,25,.35);pointer-events:none}
 
+/* ===== the rose cat + our song ===== */
+.rose-cat{position:fixed;left:50%;top:46%;z-index:48;width:min(84vw,380px);translate:-50% -50%;pointer-events:none;visibility:hidden}
+.rose-cat img{width:100%;filter:var(--sticker)}
+.rose-cap{position:absolute;left:50%;bottom:-14px;translate:-50% 0;rotate:-3deg;background:var(--grain),var(--paper);padding:6px 18px;font-family:var(--hand);font-size:1.05rem;line-height:1.8;color:var(--ink);box-shadow:3px 4px 0 var(--ink);white-space:nowrap}
+.rose-cat.go{visibility:visible;animation:catIn 3.2s cubic-bezier(.3,1.1,.4,1) forwards}
+@keyframes catIn{
+  0%{transform:translateX(125vw) rotate(12deg)}
+  18%{transform:translateX(-5vw) rotate(-6deg)}
+  25%{transform:translateX(0) rotate(4deg)}
+  31%{transform:rotate(-4deg) scale(1.06)}
+  37%{transform:rotate(4deg) scale(1)}
+  43%{transform:rotate(-3deg)}
+  49%{transform:rotate(2deg)}
+  55%{transform:rotate(0deg)}
+  82%{transform:translateX(0) rotate(0deg)}
+  100%{transform:translateX(-135vw) rotate(-14deg)}}
+#yay:not(.go) .bouquet,#yay:not(.go) .for-you,#yay:not(.go) .for-arrow,#yay:not(.go) .yay-sub,#yay:not(.go) .yay-small,#yay:not(.go) .song{animation:none;opacity:0}
+.song{width:min(100%,360px);margin:0 0 20px;opacity:0;animation:fadeUp .6s 1.4s forwards}
+.song-label{margin:0 0 4px;font-family:var(--hand);font-size:1.05rem;line-height:1.9;rotate:-2deg}
+.song-player{min-height:80px;border-radius:12px;box-shadow:3px 4px 0 var(--ink);overflow:hidden;background:#2b2b2b}
+.song-player iframe{display:block}
+.song-fallback{display:block;padding:16px 18px;color:#FCFBF8;text-decoration:none;font-weight:800;font-size:.98rem;line-height:1.35;text-align:left}
+.song-fallback small{font-weight:600;opacity:.75}
+.song-hint{margin:8px 0 0;font-family:var(--hand);font-size:.85rem;line-height:1.8;color:var(--ink-soft)}
+
 @media (prefers-reduced-motion:reduce){
   .cat-svg,.btn.yes,.env-float,.env-seal,.hub.ready,.env-hint img{animation-iteration-count:1!important}
   .rl{animation-duration:.01s!important}
@@ -355,6 +380,7 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="ghost-flash" id="ghostFlash" aria-hidden="true"></div>
 <div class="ghost" id="ghost" aria-hidden="true"><img id="ghostImg" alt=""></div>
+<div class="rose-cat" id="roseCat" aria-hidden="true"><img src="assets/rosecat.webp" alt=""><span class="rose-cap">for you, m'lady</span></div>
 <button class="sound" id="sound" type="button" aria-label="Turn sound off"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1E1B22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#1E1B22"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg></button>
 
 <main>
@@ -416,6 +442,11 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
     </div>
     <p class="yay-sub">you just made my whole week</p>
     <p class="yay-small" id="yaySmall"></p>
+    <div class="song" id="songBox">
+      <p class="song-label">our song</p>
+      <div class="song-player"><div id="spotify"><a class="song-fallback" href="https://open.spotify.com/track/5WDLRQ3VCdVrKw0njWe5E5" target="_blank" rel="noopener">Careless Whisper · George Michael<br><small>tap to open in Spotify</small></a></div></div>
+      <p class="song-hint" id="songHint">press play if it didn't start</p>
+    </div>
     <button class="btn yes reveal-late" id="toTicket" type="button">Get your ticket</button>
   </section>
 
@@ -707,7 +738,7 @@ $("sound").addEventListener("click", () => {
   soundOn = !soundOn;
   $("sound").innerHTML = soundOn ? SPK_ON : SPK_OFF;
   $("sound").setAttribute("aria-label", soundOn ? "Turn sound off" : "Turn sound on");
-  if (soundOn) pip();
+  if (soundOn) pip(); else { try { if (SPOT) SPOT.pause(); } catch (e) {} }
 });
 
 /* =========================================================
@@ -831,6 +862,19 @@ function memeBurst(x, y){
     ], { duration: 2700, delay: i * 110, easing: "cubic-bezier(.2,1,.3,1)", fill: "both" }).onfinish = () => el.remove();
   });
 }
+
+
+/* ---------- our song (Spotify's own player) ---------- */
+const SONG_URI = "spotify:track:5WDLRQ3VCdVrKw0njWe5E5";
+let SPOT = null, wantSong = false;
+window.onSpotifyIframeApiReady = IFrameAPI => {
+  IFrameAPI.createController($("spotify"), { uri: SONG_URI, width: "100%", height: 80 }, c => {
+    SPOT = c;
+    c.addListener("playback_update", e => { if (e && e.data) $("songHint").classList.toggle("hidden", !e.data.isPaused); });
+    c.addListener("ready", () => { if (wantSong) { try { c.play(); } catch (err) {} } });
+  });
+};
+function playSong(){ wantSong = true; try { if (SPOT){ if (SPOT.play) SPOT.play(); else SPOT.resume(); } } catch (e) {} }
 
 /* =========================================================
    screens
@@ -1020,6 +1064,7 @@ function sayYes(btn){
   chime();
   const r = btn.getBoundingClientRect();
   memeBurst(r.left + r.width / 2, r.top + r.height / 2);
+  playSong();
   burst(r.left + r.width / 2, r.top + r.height / 2, { count: 120, spread: 360, speed: 13, gravity: .2 });
   burst(0, vh(), { count: 80, angle: -62, spread: 34, speed: 22 });
   burst(vw(), vh(), { count: 80, angle: -118, spread: 34, speed: 22 });
@@ -1029,7 +1074,11 @@ function sayYes(btn){
       : `you tried to press no ${attempts} time${attempts === 1 ? "" : "s"}. the neigh-sayers have been defeated.`;
     await show("yay");
     shower(2600);
-    setTimeout(() => $("toTicket").classList.add("show"), 2000);
+    // the rose cat slides in after the photos, then the tulips
+    setTimeout(() => { const c = $("roseCat"); c.classList.remove("go"); void c.offsetWidth; c.classList.add("go"); swish(); }, 1300);
+    setTimeout(() => { $("yay").classList.add("go"); pip(); }, 1300 + 2700);
+    setTimeout(() => $("roseCat").classList.remove("go"), 1300 + 3300);
+    setTimeout(() => $("toTicket").classList.add("show"), 1300 + 2700 + 2100);
   }, 380);
 }
 
@@ -1195,5 +1244,6 @@ $("bring").addEventListener("change", e => {
 
 $("restart").addEventListener("click", () => location.reload());
 </script>
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 </body>
 </html>
