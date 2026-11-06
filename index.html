@@ -149,7 +149,17 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
 .btn.yes{background:var(--grain),var(--lav);rotate:-2.5deg;animation:beat 1.6s ease-in-out infinite}
 @keyframes beat{0%,100%{scale:1}12%{scale:1.06}24%{scale:.98}36%{scale:1.04}50%{scale:1}}
 .btn.no,.btn.ghost{box-shadow:inset 0 0 0 2px var(--ink),4px 4px 0 var(--ink)}
-.btn.no{rotate:2deg;transition:font-size .3s,left .5s cubic-bezier(.3,1.5,.5,1),top .5s cubic-bezier(.3,1.5,.5,1),rotate .5s cubic-bezier(.3,1.5,.5,1),translate .1s,box-shadow .1s}
+.btn.no{rotate:2deg;transition:font-size .3s,left .5s cubic-bezier(.3,1.5,.5,1),top .5s cubic-bezier(.3,1.5,.5,1),rotate .55s cubic-bezier(.3,1.3,.5,1),scale .35s cubic-bezier(.3,1.6,.5,1),translate .1s,box-shadow .1s}
+.btn.no.taped::before,.btn.no.taped::after{content:"";position:absolute;left:50%;width:30px;height:13px;background:var(--grain),var(--tape);translate:-50% 0;pointer-events:none;clip-path:polygon(4% 0,96% 0,100% 30%,96% 60%,100% 100%,4% 100%,0 70%,4% 40%,0 0)}
+.btn.no.taped::before{top:-6px;rotate:-12deg}
+.btn.no.taped::after{bottom:-6px;rotate:9deg}
+.btn.no.tremble{animation:tremble .12s linear infinite}
+@keyframes tremble{0%,100%{translate:0 0}25%{translate:1.6px -1px}50%{translate:-1.2px 1px}75%{translate:1px 1.2px}}
+.btn.no.decoy{z-index:39;animation:stickPop .4s cubic-bezier(.2,1.7,.4,1) both}
+.ask-wrap.quake{animation:quake .55s cubic-bezier(.36,.07,.19,.97)}
+@keyframes quake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px) rotate(.4deg)}30%,50%,70%{transform:translateX(-7px) rotate(-.6deg)}40%,60%{transform:translateX(7px) rotate(.6deg)}}
+.rn.jump .rw{animation:wordHop .5s cubic-bezier(.3,1.7,.5,1);animation-delay:calc(var(--i) * 55ms)}
+@keyframes wordHop{0%,100%{transform:none}35%{transform:translateY(-10px) rotate(var(--hr))}}
 .btn.no.flying{position:fixed;z-index:40;margin:0}
 .btn.no.converted{background:var(--grain),var(--sage);animation:stickPop .5s cubic-bezier(.2,1.7,.4,1) both,beat 1.6s .5s ease-in-out infinite}
 .sign{margin:30px 0 0;text-align:right;font-family:var(--hand);font-size:1.05rem;line-height:2;color:var(--lav-deep)}
@@ -360,7 +370,7 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
           <img class="mega" id="mega" src="assets/megaphone.webp" alt="">
           <div class="say-wrap"><div class="say" id="bubble" role="status" aria-live="polite"></div></div>
         </div>
-        <div class="btns">
+        <div class="btns" id="btnsRow">
           <span class="yes-wrap">
             <button class="btn yes" id="yes" type="button">Yes</button>
             <img class="point" id="point" src="assets/arrow3.webp" alt="">
@@ -596,7 +606,7 @@ function ransom(el){
   let prev = -1, idx = 0;
   const j = () => (rnd() * 7).toFixed(1);
   el.setAttribute("aria-label", text);
-  el.innerHTML = text.split(" ").map(word => '<span class="rw" aria-hidden="true">' + [...word].map(ch => {
+  el.innerHTML = text.split(" ").map((word, wi) => `<span class="rw" aria-hidden="true" style="--i:${wi};--hr:${wi % 2 ? 4 : -4}deg">` + [...word].map(ch => {
     let k; do { k = Math.floor(rnd() * RN.length); } while (k === prev); prev = k;
     const [bg, fg, ff, fw, fs, caps, sc] = RN[k];
     const c = caps ? ch.toUpperCase() : (rnd() < .35 ? ch.toLowerCase() : ch.toUpperCase());
@@ -821,11 +831,82 @@ function pickSpot(){
   }
   return best || { x: pad, y: top };
 }
+/* what the No button does on each try (after the 9th it gives up) */
+const NO_FX = ["", "spin", "", "decoys", "gallop", "tear", "quake", "", "tremble"];
+let noRot = 0, decoys = [];
+function moveNo(p, extra = 0){
+  noRot = Math.round(noRot / 360) * 360 + extra + rand(-14, 14);
+  noBtn.style.left = p.x + "px"; noBtn.style.top = p.y + "px"; noBtn.style.rotate = noRot.toFixed(1) + "deg";
+}
+function spotFor(w, h){
+  const pad = 14, top = 66, yr = yesBtn.getBoundingClientRect(), m = 30;
+  for (let i = 0; i < 50; i++){
+    const x = pad + Math.random() * Math.max(1, vw() - w - pad * 2), y = top + Math.random() * Math.max(1, vh() - h - top - pad);
+    if (x + w < yr.left - m || x > yr.right + m || y + h < yr.top - m || y > yr.bottom + m) return { x, y };
+  }
+  return { x: pad, y: top };
+}
+function hopWords(){ const q = $("q"); q.classList.remove("jump"); void q.offsetWidth; q.classList.add("jump"); }
+function quake(){ const n = document.querySelector(".ask-wrap"); n.classList.remove("quake"); void n.offsetWidth; n.classList.add("quake"); }
+const clop = () => [0, .11, .26, .37].forEach(t => tone(rand(170, 230), t, .06, "square", .045));
+const swish = () => noise(.35, 600, 2600, .14);
+function spawnDecoys(){
+  const lines = ["that one was a decoy", "fake one, nice try", "nope, not that one either"];
+  ["No", "No?", "no"].forEach((label, i) => {
+    const d = document.createElement("button");
+    d.type = "button"; d.className = "btn no decoy flying"; d.textContent = label;
+    document.body.appendChild(d);
+    const p = spotFor(d.offsetWidth, d.offsetHeight);
+    d.style.left = p.x + "px"; d.style.top = p.y + "px"; d.style.rotate = rand(-16, 16).toFixed(1) + "deg";
+    d.style.animationDelay = (i * 120) + "ms";
+    let gone = false;
+    const pop = (e, quiet) => {
+      if (e && e.cancelable) e.preventDefault();
+      if (gone || !d.isConnected) return; gone = true;
+      const r = d.getBoundingClientRect();
+      burst(r.left + r.width / 2, r.top + r.height / 2, { count: 26, spread: 360, speed: 6, gravity: .15, size: [5, 10] });
+      if (!quiet){ say(lines[i]); pip(); }
+      d.remove(); decoys = decoys.filter(x => x !== d);
+    };
+    setTimeout(() => pop(null, true), 5200 + i * 450);
+    d.addEventListener("pointerdown", pop); d.addEventListener("touchstart", pop, { passive: false }); d.addEventListener("click", pop);
+    decoys.push(d);
+  });
+}
+function clearDecoys(){ decoys.forEach(d => d.remove()); decoys = []; }
+function gallopNo(){
+  const left = Math.random() < .5;
+  clop();
+  noBtn.style.left = (left ? -240 : vw() + 60) + "px";
+  noBtn.style.rotate = (noRot + (left ? -25 : 25)) + "deg";
+  setTimeout(() => {
+    noBtn.style.transition = "none";
+    noBtn.style.left = (left ? vw() + 60 : -240) + "px";
+    void noBtn.offsetWidth;
+    noBtn.style.transition = "";
+    clop();
+    moveNo(pickSpot());
+  }, 560);
+}
+function tearNo(){
+  const r = noBtn.getBoundingClientRect();
+  rip();
+  ["inset(0 50% 0 0)", "inset(0 0 0 50%)"].forEach((clip, i) => {
+    const h = noBtn.cloneNode(true);
+    h.removeAttribute("id"); h.classList.remove("tremble");
+    Object.assign(h.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px", clipPath: clip, webkitClipPath: clip, transition: "none", pointerEvents: "none", rotate: "0deg", scale: "1" });
+    document.body.appendChild(h);
+    const anim = h.animate([{ transform: "translate(0,0) rotate(0deg)", opacity: 1 }, { transform: `translate(${i ? 70 : -70}px, ${Math.round(vh() * .55)}px) rotate(${i ? 75 : -75}deg)`, opacity: 0 }], { duration: 1100, easing: "cubic-bezier(.45,0,.85,.6)" });
+    anim.onfinish = () => h.remove();
+  });
+  noBtn.style.visibility = "hidden";
+  setTimeout(() => { noBtn.classList.add("taped"); moveNo(pickSpot()); noBtn.style.visibility = ""; }, 700);
+}
 function dodge(e){
   if (converted || saidYes) return;
   if (e && e.cancelable) e.preventDefault();
   const now = performance.now();
-  if (now - lastDodge < 300) return;
+  if (now - lastDodge < 320) return;
   lastDodge = now;
   const r = noBtn.getBoundingClientRect();
   puff(r.left + r.width / 2, r.top + r.height / 2);
@@ -835,25 +916,32 @@ function dodge(e){
   say(line); noBtn.textContent = label;
   yesBtn.style.setProperty("--grow", Math.min(1 + attempts * .12, 2.05).toFixed(2));
   if (attempts >= 3){ $("point").style.opacity = 0; $("pointTxt").style.opacity = 0; }
-  sadCat(); boing();
+  boing(); hopWords();
   if (navigator.vibrate) try { navigator.vibrate(18); } catch (err) {}
   if (!noBtn.classList.contains("flying")){
+    // lift it out of the paper note so nothing can clip it, and pin it where it was
     noBtn.style.left = r.left + "px"; noBtn.style.top = r.top + "px";
-    noBtn.classList.add("flying"); void noBtn.offsetWidth;
+    noBtn.classList.add("flying"); document.body.appendChild(noBtn); void noBtn.offsetWidth;
   }
-  requestAnimationFrame(() => {
-    const p = pickSpot();
-    noBtn.style.left = p.x + "px"; noBtn.style.top = p.y + "px";
-    noBtn.style.rotate = rand(-14, 14).toFixed(1) + "deg";
-  });
+  if (attempts >= 3) noBtn.style.scale = attempts >= 8 ? ".55" : Math.max(.7, 1 - (attempts - 2) * .07).toFixed(2);
+  const fx = NO_FX[attempts - 1];
+  if (fx === "gallop"){ gallopNo(); return; }
+  if (fx === "tear"){ tearNo(); return; }
+  if (fx === "spin") swish();
+  requestAnimationFrame(() => moveNo(pickSpot(), fx === "spin" ? (Math.random() < .5 ? 360 : -360) : 0));
+  if (fx === "decoys") setTimeout(spawnDecoys, 250);
+  if (fx === "quake") quake();
+  if (fx === "tremble") noBtn.classList.add("tremble");
 }
 function convert(){
   converted = true;
-  noBtn.classList.remove("flying");
-  noBtn.style.left = noBtn.style.top = noBtn.style.rotate = "";
+  clearDecoys();
+  noBtn.classList.remove("flying", "tremble", "taped");
+  noBtn.style.left = noBtn.style.top = noBtn.style.rotate = noBtn.style.scale = noBtn.style.visibility = "";
+  $("btnsRow").appendChild(noBtn);
   noBtn.textContent = "Yes"; noBtn.classList.add("converted"); noBtn.setAttribute("aria-label", "Yes");
   say("Just kidding, there was never a chance. the No button quit. Both say yes now.");
-  pip();
+  hopWords(); pip();
 }
 noBtn.addEventListener("mouseenter", dodge);
 noBtn.addEventListener("pointerdown", e => { if (!converted) dodge(e); });
@@ -873,6 +961,8 @@ yesBtn.addEventListener("click", () => sayYes(yesBtn));
 function sayYes(btn){
   if (saidYes) return;
   saidYes = true;
+  clearDecoys();
+  if (noBtn.parentElement === document.body) noBtn.style.display = "none";
   chime();
   const r = btn.getBoundingClientRect();
   burst(r.left + r.width / 2, r.top + r.height / 2, { count: 120, spread: 360, speed: 13, gravity: .2 });
