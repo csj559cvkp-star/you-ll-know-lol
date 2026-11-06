@@ -34,7 +34,7 @@ button:focus-visible,label:focus-within,.env:focus-visible{outline:3px solid var
 img{display:block;max-width:none;-webkit-user-drag:none;user-select:none;-webkit-user-select:none}
 
 /* ===== the page: crumpled grid paper ===== */
-.paper-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.14),rgba(255,255,255,.14)),url("assets/paper.webp") center/cover no-repeat,#E9E7E3}
+.paper-bg{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;z-index:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.14),rgba(255,255,255,.14)),url("assets/paper.webp") center/cover no-repeat,#E9E7E3}
 #fx{position:fixed;left:0;top:0;z-index:50;pointer-events:none;display:none;transform:translateZ(0);will-change:transform}
 .sound{position:fixed;top:calc(12px + var(--safe-t));right:12px;z-index:60;width:42px;height:42px;border-radius:50%;border:0;background:var(--paper);box-shadow:2px 3px 0 var(--ink);font-size:17px;cursor:pointer;display:grid;place-items:center;padding:0}
 .sound:active{translate:2px 2px;box-shadow:0 0 0 var(--ink)}
@@ -73,8 +73,8 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
 .news-env{top:calc(-30px - var(--safe-t));right:-70px;width:min(300px,72vw);rotate:7deg}
 #env-screen .rn{position:relative;z-index:2;font-size:clamp(1.7rem,8.4vw,2.5rem);max-width:330px}
 .env-hey{position:relative;z-index:2;font-family:var(--hand);font-size:1.05rem;line-height:2;margin:12px 0 22px;rotate:-3deg}
-.env-float{position:relative;z-index:2;animation:floaty 4.5s ease-in-out infinite}
-@keyframes floaty{0%,100%{transform:translateY(0) rotate(-1.2deg)}50%{transform:translateY(-8px) rotate(.8deg)}}
+.env-float{position:relative;z-index:2;animation:floaty 5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 .env{position:relative;width:min(330px,84vw);aspect-ratio:700/502;cursor:pointer;perspective:1100px;filter:drop-shadow(0 16px 18px rgba(60,40,20,.25));-webkit-user-select:none;user-select:none;touch-action:manipulation}
 .env-layer{position:absolute;inset:0;background:url("assets/envelope.webp") center/100% 100% no-repeat}
 .env-in{z-index:1;clip-path:polygon(4% 3%,96% 3%,90% 17%,75% 32%,62% 44%,50% 55%,38% 49%,25% 33%,10% 11%);background:var(--grain),linear-gradient(180deg,#A88A5E,#CDB38A 70%,#D8C29C)}
