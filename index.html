@@ -75,18 +75,18 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
 .env-hey{position:relative;z-index:2;font-family:var(--hand);font-size:1.05rem;line-height:2;margin:12px 0 22px;rotate:-3deg}
 .env-float{position:relative;z-index:2;animation:floaty 5s ease-in-out infinite}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-.env{position:relative;width:min(330px,84vw);aspect-ratio:700/502;cursor:pointer;perspective:1100px;filter:drop-shadow(0 16px 18px rgba(60,40,20,.25));-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.env{position:relative;width:min(330px,84vw);aspect-ratio:700/510;cursor:pointer;perspective:1100px;filter:drop-shadow(0 16px 18px rgba(60,40,20,.25));-webkit-user-select:none;user-select:none;touch-action:manipulation}
 .env-layer{position:absolute;inset:0;background:url("assets/envelope.webp") center/100% 100% no-repeat}
-.env-in{z-index:1;clip-path:polygon(4% 3%,96% 3%,90% 17%,75% 32%,62% 44%,50% 55%,38% 49%,25% 33%,10% 11%);background:var(--grain),linear-gradient(180deg,#A88A5E,#CDB38A 70%,#D8C29C)}
+.env-in{z-index:1;clip-path:polygon(3% 4%,97% 4%,60% 58.8%,47.9% 66%,38.3% 58.4%);background:var(--grain),linear-gradient(180deg,#BDB3A2,#D9D1C3 70%,#E6DFD3)}
 .env-letter{position:absolute;left:9%;right:9%;top:5%;height:82%;z-index:2;background:var(--grid),var(--paper);border-radius:3px;padding:14px 16px;text-align:left;opacity:0;transition:transform 1s cubic-bezier(.3,1.15,.4,1) .9s,opacity 0s .8s}
 .env-letter .hand{font-size:.9rem;color:var(--ink)}
-.env-body{z-index:3;clip-path:polygon(0 2%,10% 10%,25% 33%,38% 49%,50% 55%,62% 44%,75% 32%,90% 17%,100% 2%,100% 100%,0 100%)}
-.env-flap{z-index:4;clip-path:polygon(0 0,100% 0,100% 2%,90% 17%,75% 32%,62% 44%,50% 55%,38% 49%,25% 33%,10% 10%,0 2%);transform-origin:50% 1.5%;transition:transform .8s cubic-bezier(.55,0,.3,1) .4s,z-index 0s .8s,filter .4s .8s}
-.env-addr{position:absolute;z-index:5;left:0;right:0;bottom:12%;font-family:var(--hand);color:#4A3420;font-size:clamp(.95rem,4.2vw,1.1rem);line-height:1.6;pointer-events:none;transition:opacity .3s}
-.env-crack{position:absolute;z-index:6;left:49.5%;top:52%;width:22%;translate:-50% -50%;overflow:visible;pointer-events:none}
-.env-crack path{stroke-dasharray:120;stroke-dashoffset:120}
-.env-glow{position:absolute;z-index:6;left:49.5%;top:52%;width:24%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;box-shadow:0 0 0 0 rgba(196,98,28,.45);animation:sealPing 1.8s ease-out infinite;pointer-events:none}
-@keyframes sealPing{0%{box-shadow:0 0 0 0 rgba(196,98,28,.45)}100%{box-shadow:0 0 0 18px rgba(196,98,28,0)}}
+.env-body{z-index:3;clip-path:polygon(0 6%,1.7% 6.9%,38.3% 58.4%,47.9% 66%,60% 58.8%,98.9% 5.9%,100% 6%,100% 100%,0 100%)}
+.env-flap{z-index:4;clip-path:polygon(0 0,100% 0,100% 6%,98.9% 5.9%,60% 58.8%,47.9% 66%,38.3% 58.4%,1.7% 6.9%,0 6%);transform-origin:50% 0;transition:transform .8s cubic-bezier(.55,0,.3,1) .4s,z-index 0s .8s,filter .4s .8s}
+.env-addr{position:absolute;z-index:5;left:0;right:0;bottom:4%;font-family:var(--hand);color:#3B302A;font-size:clamp(.95rem,4.2vw,1.1rem);line-height:1.6;pointer-events:none;transition:opacity .3s}
+.env-crack{position:absolute;z-index:6;left:47.7%;top:66.1%;width:22.8%;translate:-50% -50%;overflow:visible;pointer-events:none}
+.env-crack path{stroke:#3A0A0E;stroke-dasharray:120;stroke-dashoffset:120}
+.env-glow{position:absolute;z-index:6;left:47.7%;top:66.1%;width:23.5%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;box-shadow:0 0 0 0 rgba(150,25,35,.45);animation:sealPing 1.8s ease-out infinite;pointer-events:none}
+@keyframes sealPing{0%{box-shadow:0 0 0 0 rgba(150,25,35,.45)}100%{box-shadow:0 0 0 18px rgba(150,25,35,0)}}
 .env.open{cursor:default}
 .env.open .env-glow{animation:none;opacity:0}
 .env.open .env-crack path{transition:stroke-dashoffset .3s ease-out;stroke-dashoffset:0}
@@ -957,7 +957,7 @@ function openEnvelope(){
   env.classList.add("open");
   crack(); whoosh();
   const r = env.getBoundingClientRect();
-  setTimeout(() => burst(r.left + r.width * .495, r.top + r.height * .52, { count: 16, spread: 360, speed: 4, gravity: .15, shapes: ["circle"], colors: ["#8B5A2B", "#B98545", "#5E3A18"], size: [4, 8], decay: .03 }), 280);
+  setTimeout(() => burst(r.left + r.width * .477, r.top + r.height * .661, { count: 16, spread: 360, speed: 4, gravity: .15, shapes: ["circle"], colors: ["#8E1B22", "#B3262E", "#5E0F14"], size: [4, 8], decay: .03 }), 280);
   setTimeout(() => { burst(r.left + r.width / 2, r.top - 20, { count: 26, angle: -90, spread: 120, speed: 6, gravity: .12, shapes: ["rect", "circle"], size: [8, 14] }); pip(); }, 1500);
   setTimeout(() => show("ask"), 2200);
 }
