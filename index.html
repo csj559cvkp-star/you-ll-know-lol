@@ -149,6 +149,7 @@ main{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex
 .btn:active{translate:3px 3px;box-shadow:1px 1px 0 var(--ink)}
 .btn.yes{background:var(--grain),var(--lav);rotate:-2.5deg;animation:beat 1.6s ease-in-out infinite}
 @keyframes beat{0%,100%{scale:1}12%{scale:1.06}24%{scale:.98}36%{scale:1.04}50%{scale:1}}
+.btn.no,.btn.ghost{box-shadow:inset 0 0 0 2px var(--ink),4px 4px 0 var(--ink)}
 .btn.no{rotate:2deg;transition:font-size .3s,left .5s cubic-bezier(.3,1.5,.5,1),top .5s cubic-bezier(.3,1.5,.5,1),rotate .5s cubic-bezier(.3,1.5,.5,1),translate .1s,box-shadow .1s}
 .btn.no.flying{position:fixed;z-index:40;margin:0}
 .btn.no.converted{background:var(--grain),var(--sage);animation:stickPop .5s cubic-bezier(.2,1.7,.4,1) both,beat 1.6s .5s ease-in-out infinite}
