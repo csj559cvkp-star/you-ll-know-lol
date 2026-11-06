@@ -800,7 +800,7 @@ function shower(ms){
 
 
 /* ---------- meme photos ---------- */
-const NO_MEMES = ["assets/no1.webp", "assets/no2.webp", "assets/no3.webp"];
+const NO_MEMES = ["assets/no1.webp", "assets/no2.webp", "assets/no3.webp", "assets/no4.webp", "assets/no5.webp", "assets/no6.webp", "assets/no7.webp", "assets/no8.webp", "assets/no9.webp"];
 const YES_MEMES = ["assets/yes1.webp", "assets/yes2.webp", "assets/yes3.webp"];
 [...NO_MEMES, ...YES_MEMES].forEach(src => { const im = new Image(); im.src = src; });
 const scare = () => { noise(.18, 3200, 900, .22); tone(110, 0, .25, "sawtooth", .05); tone(1480, .02, .18, "triangle", .03); };
@@ -997,7 +997,7 @@ function convert(){
   say("Just kidding, there was never a chance. the No button quit. Both say yes now.");
   hopWords(); pip();
 }
-noBtn.addEventListener("mouseenter", dodge);
+if (window.matchMedia && matchMedia("(hover: hover) and (pointer: fine)").matches) noBtn.addEventListener("mouseenter", dodge);
 noBtn.addEventListener("pointerdown", e => { if (!converted) dodge(e); });
 noBtn.addEventListener("touchstart", e => { if (!converted) dodge(e); }, { passive: false });
 noBtn.addEventListener("click", e => { if (converted) sayYes(noBtn); else dodge(e); });
